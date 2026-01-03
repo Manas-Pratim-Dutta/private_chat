@@ -1,4 +1,6 @@
 "use client"
+import { client } from "@/lib/client";
+import { useMutation } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 
@@ -30,6 +32,12 @@ export default function Home() {
 
   }, [])
 
+  const { mutate: createRoom } = useMutation({
+    mutationFn: async () => {
+      const res = await client.room.create.post()
+    }
+  })
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
@@ -37,7 +45,7 @@ export default function Home() {
           <h1 className="text-2xl font-bold tracking-tight text-green-500">
             {">"}private_chat
           </h1>
-           <p className="text-zinc-500 text-sm">A private, self-destructing chat room.</p>
+          <p className="text-zinc-500 text-sm">A private, self-destructing chat room.</p>
         </div>
         <div className="border border-zinc-800 bg-zinc-900/50 p-6 backdrop-blur-md">
           <div className="space-y-5">
@@ -49,7 +57,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <button className="w-full bg-zinc-100 text-black p-3 text-sm font-bold hover:bg-zinc-50 hover:text-black transition-colors mt-2 cursor-pointer disabled:opacity-50"> CREATE SECURE ROOM</button>
+            <button onClick ={() => createRoom()} className="w-full bg-zinc-100 text-black p-3 text-sm font-bold hover:bg-zinc-50 hover:text-black transition-colors mt-2 cursor-pointer disabled:opacity-50"> CREATE SECURE ROOM</button>
           </div>
         </div>
       </div>

@@ -1,6 +1,11 @@
 import { Elysia, t } from 'elysia'
 
-const app = new Elysia({ prefix: '/api' })
+const rooms = new Elysia({ prefix: '/room' })
+    .post("/create", () => {
+        console.log("CREATE A NEW ROOM");
+    })
+
+const app = new Elysia({ prefix: '/api' }).use(rooms)
     .get('/user', { user: { name: "Manas" } })
     .post('/', ({ body }) => body, {
         body: t.Object({
@@ -8,7 +13,8 @@ const app = new Elysia({ prefix: '/api' })
         })
     })
 
+
 export const GET = app.fetch
-export const POST = app.fetch 
+export const POST = app.fetch
 
 export type App = typeof app
